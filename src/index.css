@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+﻿@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,21 +6,21 @@
 
 @layer base {
   :root {
-    --bg-primary: #fefefe;
+    --bg-primary: #f7f8fc;
     --bg-secondary: #ffffff;
     --text-primary: #18181b;
-    --text-secondary: #525252;
-    --text-muted: #737373;
-    --border-subtle: #e5e5e5;
+    --text-secondary: #4b5563;
+    --text-muted: #6b7280;
+    --border-subtle: #e5e7eb;
     --card-bg: #ffffff;
-    --card-border: #e5e5e5;
+    --card-border: #e5e7eb;
   }
 
   .dark {
     --bg-primary: #09090b;
-    --bg-secondary: #18181b;
-    --text-primary: #fafafa;
-    --text-secondary: #cbd5e1;
+    --bg-secondary: #111827;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
     --text-muted: #94a3b8;
     --border-subtle: #27272a;
     --card-bg: #18181b;
@@ -32,15 +32,18 @@
   }
 
   body {
-    @apply bg-gray-50 text-zinc-900 antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    @apply antialiased text-zinc-900;
+    font-family: 'Manrope', system-ui, sans-serif;
+    background: radial-gradient(circle at 12% 10%, rgba(206, 17, 38, 0.07), transparent 34%),
+      radial-gradient(circle at 88% 0%, rgba(252, 209, 22, 0.1), transparent 30%), var(--bg-primary);
   }
 
   .dark body {
-    @apply bg-zinc-950 text-zinc-100;
+    @apply text-zinc-100;
+    background: radial-gradient(circle at 10% 0%, rgba(206, 17, 38, 0.15), transparent 28%),
+      radial-gradient(circle at 90% 0%, rgba(252, 209, 22, 0.08), transparent 30%), #09090b;
   }
 
-  /* Accessibilité : réduire les animations pour les utilisateurs qui le souhaitent */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -57,9 +60,9 @@
     @apply rounded-2xl border bg-white shadow-sm transition-all duration-300;
     border-color: var(--card-border);
   }
-  
+
   .card:hover {
-    @apply shadow-lg -translate-y-1;
+    @apply -translate-y-1 shadow-lg;
   }
 
   .btn-primary {
@@ -74,38 +77,14 @@
     @apply inline-flex items-center justify-center gap-2 rounded-xl bg-green-500 px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-green-600 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900;
   }
 
-  .section-title {
-    @apply text-3xl font-bold text-zinc-900 dark:text-white;
-  }
-
-  .section-subtitle {
-    @apply text-lg text-zinc-600 dark:text-zinc-400;
-  }
-
-  .guinea-flag {
-    @apply relative overflow-hidden rounded-lg;
-  }
-
   .input-field {
     @apply w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none transition-all duration-300 focus:border-guinea-red focus:ring-2 focus:ring-guinea-red/20 dark:border-zinc-700 dark:bg-zinc-900;
   }
 }
 
 @layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 0.6s ease-out forwards;
-  }
-
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.5s ease-out forwards;
-  }
-
-  .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  .font-heading {
+    font-family: 'Sora', 'Manrope', sans-serif;
   }
 
   .sr-only {
@@ -118,20 +97,5 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border-width: 0;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
   }
 }

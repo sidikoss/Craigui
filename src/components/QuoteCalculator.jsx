@@ -1,113 +1,174 @@
-import { useState, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import WhatsAppLeadCapture from './WhatsAppLeadCapture'
+﻿import { useMemo, useState } from 'react';
+import { SITE_CONTENT } from '../content/siteContent';
+import {
+  buildQuoteMessage,
+  buildWhatsAppUrl,
+  formatCurrency,
+} from '../utils/whatsapp';
 
-const PRICING_TIERS = [
-  { min: 1, max: 5, price: 45000, label: 'Standard' },
-  { min: 6, max: 20, price: 40000, label: 'Établissement' },
-  { min: 21, max: 100, price: 35000, label: 'Grossiste' },
-  { min: 101, max: Infinity, price: 32000, label: 'Partenaire' }
-]
+function getTier(quantity) {
+  return SITE_CONTENT.quote.unitTiers.find((tier) => quantity >= tier.min && quantity <= tier.max) || SITE_CONTENT.quote.unitTiers[0];
+}
 
 export default function QuoteCalculator() {
-  const [quantity, setQuantity] = useState(10)
-  const [delivery, setDelivery] = useState('conakry')
+  const defaultProduct = SITE_CONTENT.productRanges[0]?.id || '';
+  const defaultZone = SITE_CONTENT.quote.deliveryZones[0]?.id || '';
 
-  const stats = useMemo(() => {
-    const tier = PRICING_TIERS.find(t => quantity >= t.min && quantity <= t.max) || PRICING_TIERS[0]
-    const unitPrice = tier.price
-    const subtotal = quantity * unitPrice
-    const deliveryFee = delivery === 'conakry' ? 15000 : 50000
-    const total = subtotal + deliveryFee
-    
-    return { unitPrice, subtotal, deliveryFee, total, label: tier.label }
-  }, [quantity, delivery])
+  const [productId, setProductId] = useState(defaultProduct);
+  const [quantity, setQuantity] = useState(20);
+  const [zoneId, setZoneId] = useState(defaultZone);
+  const [contactName, setContactName] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
+  const [organization, setOrganization] = useState('');
 
-  const formatPrice = (price) => new Intl.NumberFormat('fr-GN').format(price) + ' GNF'
+  const product = SITE_CONTENT.productRanges.find((item) => item.id === productId) || SITE_CONTENT.productRanges[0];
+  const zone = SITE_CONTENT.quote.deliveryZones.find((item) => item.id === zoneId) || SITE_CONTENT.quote.deliveryZones[0];
+
+  const pricing = useMemo(() => {
+    const safeQuantity = Math.max(1, Number(quantity) || 1);
+    const tier = getTier(safeQuantity);
+    const unitPrice = Math.round(product.fromPrice * tier.multiplier);
+    const subtotal = unitPrice * safeQuantity;
+    const deliveryFee = zone.fee;
+    const total = subtotal + deliveryFee;
+
+    return {
+      safeQuantity,
+      tierLabel: tier.label,
+      unitPrice,
+      subtotal,
+      deliveryFee,
+      total,
+    };
+  }, [quantity, product.fromPrice, zone.fee]);
+
+  const estimateText = formatCurrency(pricing.total, SITE_CONTENT.pricingFrom.currency);
+
+  const quoteMessage = buildQuoteMessage({
+    productName: product.name,
+    quantity: pricing.safeQuantity,
+    zoneName: zone.name,
+    estimateText,
+    contactName,
+    contactPhone,
+    organization,
+  });
+
+  const whatsappHref = buildWhatsAppUrl(quoteMessage);
 
   return (
-    <div className="card p-8 border-guinea-red/20 bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900 dark:to-zinc-800 shadow-xl">
-      <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
-        <span className="text-guinea-red">📊</span> Estimateur de Devis
-      </h3>
+    <div className="card border-guinea-red/20 bg-gradient-to-br from-white to-zinc-50 p-6 shadow-xl dark:from-zinc-900 dark:to-zinc-800">
+      <h3 className="mb-5 text-2xl font-bold text-zinc-900 dark:text-white">Calculateur de devis simplifie</h3>
 
-      <div className="space-y-8">
-        {/* Quantity Slider */}
-        <div>
-          <div className="flex justify-between mb-2">
-            <label className="font-semibold text-zinc-700 dark:text-zinc-300">Quantité (Paquets)</label>
-            <span className="text-guinea-red font-bold text-xl">{quantity}</span>
-          </div>
-          <input 
-            type="range" 
-            min="1" 
-            max="200" 
-            value={quantity} 
-            onChange={(e) => setQuantity(parseInt(e.target.value))}
-            className="w-full h-2 bg-zinc-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-guinea-red"
-          />
-          <div className="flex justify-between text-xs text-zinc-500 mt-2">
-            <span>1 paquet</span>
-            <span>100+ (Grossiste)</span>
-            <span>200+ (Partenaire)</span>
-          </div>
+      <div className="grid gap-4">
+        <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="quote-product">
+          Type de craie
+        </label>
+        <select
+          id="quote-product"
+          className="input-field"
+          value={productId}
+          onChange={(event) => setProductId(event.target.value)}
+        >
+          {SITE_CONTENT.productRanges.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
+        </select>
+
+        <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="quote-quantity">
+          Quantite ({SITE_CONTENT.pricingFrom.baseUnitLabel}s)
+        </label>
+        <input
+          id="quote-quantity"
+          type="number"
+          min="1"
+          max="10000"
+          value={quantity}
+          onChange={(event) => setQuantity(event.target.value)}
+          className="input-field"
+        />
+
+        <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="quote-zone">
+          Zone de livraison
+        </label>
+        <select
+          id="quote-zone"
+          className="input-field"
+          value={zoneId}
+          onChange={(event) => setZoneId(event.target.value)}
+        >
+          {SITE_CONTENT.quote.deliveryZones.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mt-5 rounded-2xl bg-zinc-100 p-4 text-sm dark:bg-zinc-950">
+        <div className="flex items-center justify-between py-1">
+          <span className="text-zinc-500">Tarif applique</span>
+          <strong className="text-zinc-900 dark:text-white">{pricing.tierLabel}</strong>
         </div>
-
-        {/* Delivery Options */}
-        <div>
-          <label className="block font-semibold text-zinc-700 dark:text-zinc-300 mb-3">Zone de Livraison</label>
-          <div className="grid grid-cols-2 gap-4">
-            <button 
-              onClick={() => setDelivery('conakry')}
-              className={`p-4 rounded-xl border-2 transition-all ${delivery === 'conakry' ? 'border-guinea-red bg-guinea-red/5' : 'border-zinc-200 dark:border-zinc-700'}`}
-            >
-              <div className="font-bold">Conakry</div>
-              <div className="text-xs text-zinc-500">15.000 GNF</div>
-            </button>
-            <button 
-              onClick={() => setDelivery('interieur')}
-              className={`p-4 rounded-xl border-2 transition-all ${delivery === 'interieur' ? 'border-guinea-red bg-guinea-red/5' : 'border-zinc-200 dark:border-zinc-700'}`}
-            >
-              <div className="font-bold">Intérieur</div>
-              <div className="text-xs text-zinc-500">50.000 GNF</div>
-            </button>
-          </div>
+        <div className="flex items-center justify-between py-1">
+          <span className="text-zinc-500">Prix unitaire estime</span>
+          <strong className="text-zinc-900 dark:text-white">
+            {formatCurrency(pricing.unitPrice, SITE_CONTENT.pricingFrom.currency)}
+          </strong>
         </div>
-
-        {/* Results */}
-        <div className="bg-zinc-100 dark:bg-zinc-950 rounded-2xl p-6 space-y-4">
-          <div className="flex justify-between items-center text-sm">
-            <span className="text-zinc-500">Prix Unitaire ({stats.label})</span>
-            <span className="font-medium text-zinc-900 dark:text-white">{formatPrice(stats.unitPrice)}</span>
-          </div>
-          <div className="flex justify-between items-center text-sm">
-            <span className="text-zinc-500">Sous-total</span>
-            <span className="font-medium text-zinc-900 dark:text-white">{formatPrice(stats.subtotal)}</span>
-          </div>
-          <div className="flex justify-between items-center text-sm">
-            <span className="text-zinc-500">Frais de livraison</span>
-            <span className="font-medium text-zinc-900 dark:text-white">{formatPrice(stats.deliveryFee)}</span>
-          </div>
-          <div className="h-px bg-zinc-200 dark:bg-zinc-800 my-2" />
-          <div className="flex justify-between items-center">
-            <span className="text-lg font-bold text-zinc-900 dark:text-white">Total Estimé</span>
-            <motion.span 
-              key={stats.total}
-              initial={{ scale: 1.1, color: '#CE1126' }}
-              animate={{ scale: 1, color: 'inherit' }}
-              className="text-2xl font-black text-guinea-red"
-            >
-              {formatPrice(stats.total)}
-            </motion.span>
-          </div>
+        <div className="flex items-center justify-between py-1">
+          <span className="text-zinc-500">Sous-total</span>
+          <strong className="text-zinc-900 dark:text-white">
+            {formatCurrency(pricing.subtotal, SITE_CONTENT.pricingFrom.currency)}
+          </strong>
         </div>
+        <div className="flex items-center justify-between py-1">
+          <span className="text-zinc-500">Livraison</span>
+          <strong className="text-zinc-900 dark:text-white">
+            {formatCurrency(pricing.deliveryFee, SITE_CONTENT.pricingFrom.currency)}
+          </strong>
+        </div>
+        <div className="mt-2 flex items-center justify-between border-t border-zinc-200 pt-3 dark:border-zinc-800">
+          <span className="text-base font-bold text-zinc-900 dark:text-white">Total indicatif</span>
+          <span className="text-xl font-black text-guinea-red">{estimateText}</span>
+        </div>
+      </div>
 
-        <WhatsAppLeadCapture 
-          quantity={quantity} 
-          total={formatPrice(stats.total)} 
-          tierLabel={stats.label} 
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <input
+          type="text"
+          className="input-field"
+          placeholder="Nom du contact"
+          value={contactName}
+          onChange={(event) => setContactName(event.target.value)}
+        />
+        <input
+          type="tel"
+          className="input-field"
+          placeholder="Telephone"
+          value={contactPhone}
+          onChange={(event) => setContactPhone(event.target.value)}
         />
       </div>
+      <input
+        type="text"
+        className="input-field mt-3"
+        placeholder="Structure (ecole, institut, entreprise...)"
+        value={organization}
+        onChange={(event) => setOrganization(event.target.value)}
+      />
+
+      <a
+        href={whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn-whatsapp mt-5 w-full justify-center py-3 text-base"
+      >
+        Envoyer ce devis sur WhatsApp
+      </a>
+      <p className="mt-2 text-center text-xs text-zinc-500">Estimation indicative, validation finale apres confirmation.</p>
     </div>
-  )
+  );
 }

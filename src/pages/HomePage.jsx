@@ -1,217 +1,161 @@
-import { Link } from 'react-router-dom'
-import { SEOHead, pageMeta } from '../components/seo/SEOMeta'
-import QuoteCalculator from '../components/QuoteCalculator'
+﻿import { Link } from 'react-router-dom';
+import QuoteCalculator from '../components/QuoteCalculator';
+import { SEOHead } from '../components/seo/SEOMeta';
+import { SITE_CONTENT } from '../content/siteContent';
+import { buildWhatsAppUrl, formatCurrency } from '../utils/whatsapp';
 
 export default function HomePage() {
-  const meta = pageMeta['/']
-  
+  const highlights = SITE_CONTENT.productRanges.filter((item) => item.highlighted).slice(0, 3);
+  const whatsappCta = buildWhatsAppUrl('Bonjour, je souhaite obtenir un devis rapide pour des craies scolaires.');
+
   return (
     <>
-      <SEOHead {...meta} />
-      <div className="space-y-20">
-        {/* Hero Section */}
+      <SEOHead path="/" />
+
+      <div className="space-y-20 pb-12">
         <section className="relative overflow-hidden bg-gradient-to-b from-white to-zinc-50 py-20 dark:from-zinc-950 dark:to-zinc-900">
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -right-20 -top-20 h-96 w-96 rounded-full bg-guinea-red/10 blur-3xl" />
-            <div className="absolute -left-20 bottom-0 h-96 w-96 rounded-full bg-guinea-yellow/10 blur-3xl" />
+          <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+            <div className="absolute -right-16 -top-16 h-80 w-80 rounded-full bg-guinea-red/15 blur-3xl" />
+            <div className="absolute -left-10 bottom-0 h-72 w-72 rounded-full bg-guinea-yellow/20 blur-3xl" />
           </div>
-          
-          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center animate-fade-in">
-              <div className="mb-6 flex justify-center">
-                <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-zinc-100 shadow-lg dark:bg-zinc-800">
-                  <div className="relative h-16 w-16">
-                    <div className="absolute inset-0 rounded-lg bg-guinea-red" />
-                    <div className="absolute inset-x-0 top-1/3 h-1/3 bg-guinea-yellow" />
-                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-guinea-green rounded-b-lg" />
-                  </div>
+
+          <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+              <div>
+                <p className="inline-flex rounded-full bg-zinc-100 px-4 py-1 text-xs font-bold uppercase tracking-[0.12em] text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
+                  Vente de craie B2B
+                </p>
+                <h1 className="mt-5 text-4xl font-extrabold leading-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-6xl">
+                  {SITE_CONTENT.company.heroTitle}
+                </h1>
+                <p className="mt-5 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
+                  {SITE_CONTENT.company.heroSubtitle}
+                </p>
+
+                <div className="mt-8 flex flex-wrap items-center gap-3">
+                  <Link to="/contact" className="btn-primary text-base">
+                    Demander un devis
+                  </Link>
+                  <Link to="/produits" className="btn-secondary text-base">
+                    Voir les gammes
+                  </Link>
+                  <a href={whatsappCta} target="_blank" rel="noopener noreferrer" className="btn-whatsapp text-base">
+                    WhatsApp direct
+                  </a>
                 </div>
               </div>
-              
-              <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-6xl">
-                La Craie Guinéenne que les{' '}
-                <span className="text-guinea-red">Écoles Méritent</span>
-              </h1>
-              
-              <p className="mx-auto mt-6 max-w-2xl text-xl text-zinc-600 dark:text-zinc-400">
-                Fabriquée en Guinée. Pour les Guinéens. À Prix Local.
-              </p>
-              
-              <p className="mt-2 font-semibold text-guinea-green">
-                Qualité garantie. Livraison partout.
-              </p>
-              
-              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <a 
-                  href="https://wa.me/224661862044?text=Bonjour, je souhaite commander des craies scolaires."
-                  className="btn-primary text-lg px-8 py-4 animate-float"
-                >
-                  Commander maintenant
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
-                <Link to="/services" className="btn-secondary text-lg px-8 py-4">
-                  Voir nos produits
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Trust Badges */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {[
-              { icon: '🏭', text: 'Fabrication locale' },
-              { icon: '💰', text: 'Prix imbattables' },
-              { icon: '🚚', text: 'Livraison 48h' },
-              { icon: '✓', text: 'Qualité garantie' }
-            ].map((badge, i) => (
-              <div 
-                key={i} 
-                className="flex items-center gap-3 rounded-xl bg-white p-4 shadow-sm dark:bg-zinc-900 hover:shadow-md transition-shadow"
-              >
-                <span className="text-2xl">{badge.icon}</span>
-                <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{badge.text}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Problem/Solution Section */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">
-              La Craie Guinéenne qui Révolutionne l'Éducation
-            </h2>
-            <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-              Nous avons créé Craigui parce que nous en avions assez de voir des écoles payer 
-              le prix fort pour des craies importées de qualité douteuse.
-            </p>
-          </div>
-          
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {[
-              { icon: '🔴', title: 'Le Problème', desc: 'Les craies importées sont chères, cassent facilement et ne sont pas adaptées aux conditions locales.', color: 'guinea-red' },
-              { icon: '🟡', title: 'Notre Idée', desc: 'Fabriquer des craies right ici en Guinée, avec des matériaux adaptés et un processus de qualité.', color: 'guinea-yellow' },
-              { icon: '🟢', title: 'Notre Solution', desc: 'Des craies de qualité supérieure, prix divisés par 2, livrées par quelqu\'un qui comprend les réalités guinéennes.', color: 'guinea-green' }
-            ].map((item, i) => (
-              <div 
-                key={i} 
-                className="card p-8 text-center hover:-translate-y-1 transition-transform duration-300"
-              >
-                <div className={`text-4xl mb-4`}>{item.icon}</div>
-                <h3 className="text-xl font-bold text-zinc-900 dark:text-white">{item.title}</h3>
-                <p className="mt-3 text-zinc-600 dark:text-zinc-400">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section className="bg-zinc-900 py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-              {[
-                { value: '500+', label: 'Écoles livrées' },
-                { value: '150K+', label: 'Craies vendues' },
-                { value: '3', label: 'Années d\'expérience' },
-                { value: '98%', label: 'Clients satisfaits' }
-              ].map((stat, i) => (
-                <div key={i} className="text-center">
-                  <div className="text-4xl font-extrabold text-white">{stat.value}</div>
-                  <div className="mt-2 text-sm text-zinc-400">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonials */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">
-              Ce que disent nos clients
-            </h2>
-            <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
-              Plus de 500 écoles nous font confiance à travers la Guinée
-            </p>
-          </div>
-          
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {[
-              { name: 'École primaire Hamdallaye', location: 'Conakry', text: 'Depuis que nous commandons chez Craigui, nous avons divisé notre budget craies par 2. La qualité est au rendez-vous !', rating: 5 },
-              { name: 'Institut Mamadou Diallo', location: 'Kindia', text: 'Un service rapide et professionnel. Les craies ne cassent plus entre les mains de nos élèves. Merci Craigui !', rating: 5 },
-              { name: 'École Franco-Arabe de Ratoma', location: 'Conakry', text: 'Enfin un fournisseur local qui comprend nos besoins. Livraison rapide et prix compétitifs. Je recommande à 100%.', rating: 5 }
-            ].map((t, i) => (
-              <div key={i} className="card p-6">
-                <div className="flex gap-1 mb-4">
-                  {[...Array(t.rating)].map((_, j) => (
-                    <svg key={j} className="h-5 w-5 text-guinea-yellow" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
+              <aside className="card p-6">
+                <p className="text-xs font-bold uppercase tracking-[0.12em] text-guinea-red">Points forts</p>
+                <ul className="mt-4 space-y-3 text-sm text-zinc-700 dark:text-zinc-300">
+                  {SITE_CONTENT.valueProps.map((value) => (
+                    <li key={value} className="flex items-start gap-2">
+                      <span className="mt-0.5 text-guinea-green">●</span>
+                      <span>{value}</span>
+                    </li>
                   ))}
-                </div>
-                <p className="text-zinc-600 dark:text-zinc-300 italic">"{t.text}"</p>
-                <div className="mt-4 border-t border-zinc-200 pt-4 dark:border-zinc-700">
-                  <p className="font-semibold text-zinc-900 dark:text-white">{t.name}</p>
-                  <p className="text-sm text-zinc-500">{t.location}</p>
-                </div>
-              </div>
+                </ul>
+                <p className="mt-6 rounded-xl bg-zinc-100 px-4 py-3 text-xs text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
+                  Delai de reponse commercial: <strong>{SITE_CONTENT.contacts.responseTime}</strong>
+                </p>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            {SITE_CONTENT.trustStats.map((stat) => (
+              <article key={stat.label} className="card p-5 text-center">
+                <p className="text-3xl font-extrabold text-guinea-red">{stat.value}</p>
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">{stat.label}</p>
+              </article>
             ))}
           </div>
         </section>
 
-        {/* Quote Calculator */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-2 items-center">
+        <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h2 className="text-3xl font-bold text-zinc-900 dark:text-white mb-6">
-                Un devis clair, <span className="text-guinea-red">sans surprise</span>
-              </h2>
-              <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-8">
-                Parce que chaque école a des besoins différents, nous avons créé cet outil pour 
-                vous aider à estimer votre budget en quelques clics. 
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">Produits</p>
+              <h2 className="mt-2 text-3xl font-bold text-zinc-900 dark:text-white">Gammes les plus demandees</h2>
+            </div>
+            <Link to="/produits" className="btn-secondary py-2 text-sm">
+              Explorer toutes les offres
+            </Link>
+          </div>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {highlights.map((product) => (
+              <article key={product.id} className="card p-6">
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-white">{product.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{product.summary}</p>
+                <p className="mt-4 text-sm font-semibold text-guinea-green">
+                  A partir de {formatCurrency(product.fromPrice, SITE_CONTENT.pricingFrom.currency)}
+                </p>
+                <ul className="mt-3 space-y-1 text-xs text-zinc-500 dark:text-zinc-400">
+                  {product.useCases.slice(0, 2).map((item) => (
+                    <li key={item}>- {item}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-start">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">Simulation</p>
+              <h2 className="mt-2 text-3xl font-bold text-zinc-900 dark:text-white">Estimez votre budget rapidement</h2>
+              <p className="mt-4 text-zinc-600 dark:text-zinc-300">
+                Choisissez un type de produit, une quantite et votre zone de livraison. Vous obtenez une estimation
+                immediate, puis vous pouvez envoyer le recapitulatif sur WhatsApp.
               </p>
-              <ul className="space-y-4">
-                {[
-                  'Tarifs dégressifs selon la quantité',
-                  'Frais de livraison calculés par zone',
-                  'Validation instantanée via WhatsApp',
-                  'Accompagnement personnalisé pour les gros volumes'
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-zinc-700 dark:text-zinc-300">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-guinea-green/10 text-guinea-green">✓</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
             </div>
             <QuoteCalculator />
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-12">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-guinea-red via-guinea-yellow to-guinea-green p-8 text-center sm:p-12">
-            <h3 className="text-2xl font-bold text-white sm:text-3xl">
-              Prêt à rejoindre les écoles qui font confiance à Craigui ?
-            </h3>
-            <p className="mt-4 text-white/90">
-              Contactez-nous maintenant et recevez votre devis gratuit en moins de 24h.
+        <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">Temoignages</p>
+            <h2 className="mt-2 text-3xl font-bold text-zinc-900 dark:text-white">Ce que disent nos clients</h2>
+          </div>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {SITE_CONTENT.testimonials.map((item) => (
+              <article key={item.name} className="card p-6">
+                <p className="text-sm italic leading-relaxed text-zinc-600 dark:text-zinc-300">"{item.quote}"</p>
+                <div className="mt-5 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+                  <p className="font-semibold text-zinc-900 dark:text-white">{item.name}</p>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                    {item.role} - {item.city}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl bg-zinc-900 p-8 text-center sm:p-10">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-400">Partenariat</p>
+            <h2 className="mt-3 text-3xl font-bold text-white">Besoin d un fournisseur stable pour votre structure ?</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-sm text-zinc-300">
+              Nous preparons une offre adaptee a votre frequence d achat et a vos contraintes logistiques.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link to="/contact" className="rounded-xl bg-white px-6 py-3 font-bold text-guinea-red shadow-lg transition-all hover:bg-zinc-100">
-                Demander un devis
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+              <Link to="/contact" className="rounded-xl bg-white px-6 py-3 text-sm font-bold text-zinc-900">
+                Demander un devis detaille
               </Link>
-              <a href="https://wa.me/224661862044" target="_blank" rel="noopener noreferrer" className="rounded-xl bg-green-500 px-6 py-3 font-bold text-white shadow-lg transition-all hover:bg-green-600">
-                WhatsApp direct
+              <a href={whatsappCta} target="_blank" rel="noopener noreferrer" className="btn-whatsapp py-3 text-sm">
+                Contacter WhatsApp
               </a>
             </div>
           </div>
         </section>
       </div>
     </>
-  )
+  );
 }

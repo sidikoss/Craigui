@@ -1,147 +1,107 @@
-import { SEOHead, pageMeta } from '../components/seo/SEOMeta'
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom';
+import { SEOHead } from '../components/seo/SEOMeta';
+import { SITE_CONTENT } from '../content/siteContent';
 
-const values = [
-  { title: 'Qualité Premium', desc: 'Chaque craie est conçue pour durer. Nous utilisons des matériaux soigneusement sélectionnés pour garantir une écriture fluide et une résistance maximale.', icon: '⭐' },
-  { title: 'Prix Local', desc: 'En fabricant en Guinée, nous réduisons les coûts logistiques et vous faisons bénéficier des prix les plus bas du marché. Économie sans compromis.', icon: '💰' },
-  { title: 'Fierté Guinéenne', desc: 'Nous croyons en la capacité des Guinéens à produire des produits de qualité. Chaque craie Craigui est une fierté nationale.', icon: '🇬🇳' }
-]
-
-const stats = [
-  { value: '500+', label: 'Écoles livrées' },
-  { value: '150 000+', label: 'Craies produites' },
-  { value: '3', label: 'Ans d\'expertise' },
-  { value: '98%', label: 'Taux de satisfaction' }
-]
+const COMMITMENTS = [
+  {
+    title: 'Qualite controlee',
+    description: 'Chaque lot suit un controle simple avant expédition pour maintenir une qualite reguliere.',
+  },
+  {
+    title: 'Approche terrain',
+    description: 'Nous adaptons les conditionnements et rythmes de livraison a vos contraintes locales.',
+  },
+  {
+    title: 'Relation long terme',
+    description: 'Nous visons des partenariats durables avec ecoles, instituts et distributeurs.',
+  },
+];
 
 export default function AboutPage() {
-  const meta = pageMeta['/about']
-  
   return (
     <>
-      <SEOHead {...meta} />
-      <div className="space-y-20 py-12">
-        {/* Header */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <SEOHead path="/a-propos" />
+
+      <div className="space-y-16 py-12">
+        <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">Presentation</p>
+            <h1 className="mt-2 text-4xl font-extrabold text-zinc-900 dark:text-white">A propos de {SITE_CONTENT.company.name}</h1>
+            <p className="mt-4 text-lg leading-relaxed text-zinc-600 dark:text-zinc-300">{SITE_CONTENT.company.story}</p>
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+            <article className="card p-7">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">Mission</p>
+              <h2 className="mt-2 text-2xl font-bold text-zinc-900 dark:text-white">Pourquoi nous existons</h2>
+              <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{SITE_CONTENT.company.mission}</p>
+              <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{SITE_CONTENT.company.slogan}</p>
+            </article>
+
+            <article className="card p-7">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">Coordonnees</p>
+              <h2 className="mt-2 text-2xl font-bold text-zinc-900 dark:text-white">Informations entreprise</h2>
+              <ul className="mt-4 space-y-2 text-sm text-zinc-600 dark:text-zinc-300">
+                <li>Nom: {SITE_CONTENT.company.legalName}</li>
+                <li>Adresse: {SITE_CONTENT.company.address}</li>
+                <li>Ville: {SITE_CONTENT.company.city}</li>
+                <li>Annee de lancement: {SITE_CONTENT.company.foundedYear}</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl font-extrabold text-zinc-900 dark:text-white">
-              L'Histoire derrière Craigui
-            </h1>
-            <p className="mt-4 text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-              Une passion née d'un constat simple : les écoles guinéennes méritent mieux.
-            </p>
+            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Nos engagements</h2>
           </div>
-        </section>
-
-        {/* Story Section */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-2 items-center">
-            <div>
-              <div className="relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-guinea-red via-guinea-yellow to-guinea-green flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <div className="text-8xl mb-4">🏭</div>
-                    <p className="text-xl font-bold text-white">Made in Guinea</p>
-                  </div>
-                </div>
-                <div className="absolute -bottom-4 -right-4 rounded-xl bg-white p-4 shadow-lg dark:bg-zinc-900">
-                  <p className="text-sm font-semibold text-guinea-green">✓ Fabrication locale</p>
-                </div>
-              </div>
-            </div>
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
-                Le Déclic
-              </h2>
-              <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Tout a commencé un matin de septembre, quand nous avons vu une école primaire 
-                payer le prix fort pour des craies qui arrivaient déjà cassées. Les enseignants 
-                se plaignaient, les élèves souffraient, et le budget des écoles s'épuisait.
-              </p>
-              <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Nous nous sommes alors posé une question simple : pourquoi importer alors que 
-                nous pouvons fabriquer ici, en Guinée, avec des matériaux adaptés à notre climat 
-                et nos besoins ?
-              </p>
-              <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Après des mois de recherche et de développement, Craigui est né. Aujourd'hui, 
-                nous produisons des craies de qualité supérieure qui satisfont les normes internationales 
-                tout en restant accessibles aux établissements guinéens.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Mission */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl bg-zinc-900 p-8 text-center sm:p-12">
-            <h2 className="text-2xl font-bold text-white mb-8">
-              Notre Mission
-            </h2>
-            <p className="text-xl text-zinc-300 max-w-3xl mx-auto leading-relaxed">
-              Permettre à chaque école, université et institut de Guinée d'avoir accès 
-              à des fournitures scolaires de qualité sans se ruiner. Parce que l'éducation 
-              de nos enfants mérite le meilleur, au prix juste.
-            </p>
-          </div>
-        </section>
-
-        {/* Values */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">
-              Nos Valeurs
-            </h2>
-          </div>
-          <div className="grid gap-8 md:grid-cols-3">
-            {values.map((v, i) => (
-              <div key={i} className="card p-8">
-                <div className="text-4xl mb-4">{v.icon}</div>
-                <h3 className="text-xl font-bold text-zinc-900 dark:text-white">{v.title}</h3>
-                <p className="mt-3 text-zinc-600 dark:text-zinc-400">{v.desc}</p>
-              </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {COMMITMENTS.map((item) => (
+              <article key={item.title} className="card p-6">
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{item.description}</p>
+              </article>
             ))}
           </div>
         </section>
 
-        {/* Stats */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">
-              Craigui en Chiffres
-            </h2>
-          </div>
-          <div className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-4">
-            {stats.map((s, i) => (
-              <div key={i} className="text-center">
-                <div className="text-4xl font-extrabold text-guinea-red">{s.value}</div>
-                <div className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{s.label}</div>
-              </div>
+        <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            {SITE_CONTENT.trustStats.map((stat) => (
+              <article key={stat.label} className="card p-5 text-center">
+                <p className="text-3xl font-extrabold text-guinea-red">{stat.value}</p>
+                <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-300">{stat.label}</p>
+              </article>
             ))}
           </div>
         </section>
 
-        {/* CTA */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-12">
-          <div className="rounded-2xl bg-guinea-yellow/10 p-8 text-center">
-            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
-              Rejoignez notre mission
-            </h2>
-            <p className="mt-4 text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto">
-              Chaque commande soutient l'économie locale et permet à plus d'écoles de bénéficier 
-              de craies de qualité à prix accessible.
+        <section className="mx-auto w-full max-w-7xl px-4 pb-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl bg-zinc-900 p-8 text-center">
+            <h2 className="text-2xl font-bold text-white">Zones desservies</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-sm text-zinc-300">
+              Nous organisons la livraison selon votre localisation et votre planning d achat.
             </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-              <Link to="/contact" className="btn-primary">
-                Passer une commande
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+              {SITE_CONTENT.contacts.serviceAreas.map((area) => (
+                <span key={area} className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-semibold text-zinc-200">
+                  {area}
+                </span>
+              ))}
+            </div>
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+              <Link to="/produits" className="btn-secondary py-2 text-sm">
+                Voir les offres
               </Link>
-              <Link to="/services" className="btn-secondary">
-                Découvrir nos produits
+              <Link to="/contact" className="btn-primary py-2 text-sm">
+                Nous contacter
               </Link>
             </div>
           </div>
         </section>
       </div>
     </>
-  )
+  );
 }

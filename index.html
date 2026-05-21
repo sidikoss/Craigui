@@ -1,34 +1,43 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Craigui | Craies Scolaires de Qualité en Guinée</title>
-    <meta name="description" content="Fabrication et vente de craies scolaires de qualité au meilleur prix en Guinée. Livraison dans toute la Guinée. Made in Guinea." />
-    <meta name="keywords" content="craies scolaires, guinée, conakry, craies qualité, fournitures scolaires, fabrication locale, achat craies" />
-    <meta name="robots" content="index, follow" />
+
+    <title>Craigui | Vitrine de vente de craies scolaires</title>
+    <meta
+      name="description"
+      content="Vitrine de vente de craies scolaires: gammes produits, devis rapide et contact WhatsApp."
+    />
+    <meta name="keywords" content="craie scolaire, craie guinee, devis craie, fournisseur craie" />
+    <meta name="robots" content="index,follow" />
     <meta name="author" content="Craigui" />
     <meta name="theme-color" content="#CE1126" />
-    
+
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Craigui | Craies Scolaires de Qualité en Guinée" />
-    <meta property="og:description" content="Fabrication locale de craies scolaires. Qualité premium, prix local. Livraison partout en Guinée." />
     <meta property="og:locale" content="fr_GN" />
+    <meta property="og:title" content="Craigui | Vitrine de vente de craies scolaires" />
+    <meta
+      property="og:description"
+      content="Decouvrez nos gammes de craies, nos prix de depart et notre parcours devis via WhatsApp."
+    />
+    <meta property="og:url" content="https://vitrine-craie.vercel.app/" />
     <meta property="og:site_name" content="Craigui" />
-    
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Craigui | Vitrine de vente de craies scolaires" />
+    <meta
+      name="twitter:description"
+      content="Craies pour ecoles et centres de formation: produits, devis et contact commercial rapide."
+    />
+
+    <link rel="canonical" href="https://vitrine-craie.vercel.app/" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
-    </noscript>
-    
+
     <script>
-      (function() {
+      (function () {
         const savedTheme = localStorage.getItem('theme');
         const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         const theme = savedTheme || systemTheme;
@@ -37,86 +46,8 @@
         }
       })();
     </script>
-    
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Craigui",
-      "description": "Fabrication et distribution de craies scolaires de qualité en République de Guinée",
-      "url": "https://graigui.vercel.app",
-      "logo": "https://graigui.vercel.app/favicon.svg",
-      "email": "sidikouzekaba@gmail.com",
-      "telephone": "+224-661-862-044",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Conakry",
-        "addressCountry": "GN"
-      },
-      "sameAs": [
-        "https://wa.me/224661862044"
-      ]
-    }
-    </script>
-    
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "Craies Scolaires Craigui",
-      "description": "Craies scolaires de qualité supérieure, fabricación locale en Guinée",
-      "brand": {
-        "@type": "Brand",
-        "name": "Craigui"
-      },
-      "offers": {
-        "@type": "AggregateOffer",
-        "lowPrice": "5000",
-        "highPrice": "45000",
-        "priceCurrency": "GNF",
-        "availability": "https://schema.org/InStock"
-      },
-      "areaServed": {
-        "@type": "Country",
-        "name": "Guinée"
-      }
-    }
-    </script>
-    
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Accueil",
-          "item": "https://graigui.vercel.app"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Services",
-          "item": "https://graigui.vercel.app/services"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "À propos",
-          "item": "https://graigui.vercel.app/about"
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
-          "name": "Contact",
-          "item": "https://graigui.vercel.app/contact"
-        }
-      ]
-    }
-    </script>
   </head>
-  <body class="antialiased">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

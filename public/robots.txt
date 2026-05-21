@@ -1,5 +1,4 @@
-# https://www.robotstxt.org/robotstxt.html
-User-agent: *
+﻿User-agent: *
 Allow: /
 
-Sitemap: https://graigui.vercel.app/sitemap.xml
+Sitemap: https://vitrine-craie.vercel.app/sitemap.xml

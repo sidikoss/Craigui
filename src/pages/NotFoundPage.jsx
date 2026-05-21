@@ -1,32 +1,27 @@
-import { Link } from 'react-router-dom'
-import { SEOHead, pageMeta } from '../components/seo/SEOMeta'
+﻿import { Link } from 'react-router-dom';
+import { SEOHead } from '../components/seo/SEOMeta';
 
 export default function NotFoundPage() {
   return (
     <>
-      <SEOHead {...pageMeta['/']} />
-      <div className="min-h-[60vh] flex items-center justify-center px-4">
+      <SEOHead path="/" />
+      <div className="flex min-h-[60vh] items-center justify-center px-4">
         <div className="text-center">
-          <div className="mb-8">
-            <div className="text-8xl font-extrabold text-guinea-red/20">404</div>
-            <div className="text-6xl mb-4">🔍</div>
-          </div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-4">
-            Page introuvable
-          </h1>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-8 max-w-md mx-auto">
-            La page que vous recherchez n'existe pas ou a été déplacée.
+          <div className="mb-6 text-7xl font-extrabold text-guinea-red/30">404</div>
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Page introuvable</h1>
+          <p className="mx-auto mt-3 max-w-md text-sm text-zinc-600 dark:text-zinc-300">
+            La page demandee n existe pas ou a ete deplacee.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to="/" className="btn-primary">
-              Retour à l'accueil
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            <Link to="/" className="btn-primary py-2 text-sm">
+              Retour accueil
             </Link>
-            <Link to="/contact" className="btn-secondary">
-              Nous contacter
+            <Link to="/contact" className="btn-secondary py-2 text-sm">
+              Contacter un conseiller
             </Link>
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }

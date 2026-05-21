@@ -1,96 +1,78 @@
-import { useState } from 'react'
-import { SEOHead, pageMeta } from '../components/seo/SEOMeta'
-import { Link } from 'react-router-dom'
-import ContactForm from '../components/ContactForm'
+﻿import ContactForm from '../components/ContactForm';
+import { SEOHead } from '../components/seo/SEOMeta';
+import { SITE_CONTENT } from '../content/siteContent';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
 
 export default function ContactPage() {
-  const meta = pageMeta['/contact']
-  const [formData, setFormData] = useState({ name: '', email: '', school: '', quantity: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setSubmitted(true)
-    const message = `Bonjour, je suis ${formData.name} de ${formData.school}. Je souhaite commander ${formData.quantity} de craies. Message: ${formData.message}`
-    window.open(`https://wa.me/224661862044?text=${encodeURIComponent(message)}`, '_blank')
-  }
-
-  const contactMethods = [
-    { icon: '📧', title: 'Email', value: 'sidikouzekaba@gmail.com', link: 'mailto:sidikouzekaba@gmail.com' },
-    { icon: '💬', title: 'WhatsApp', value: '+224 661 862 044', link: 'https://wa.me/224661862044' },
-    { icon: '📍', title: 'Adresse', value: 'Conakry, Guinée', link: null }
-  ]
+  const whatsappLink = buildWhatsAppUrl('Bonjour, je souhaite etre accompagne pour une commande de craies.');
 
   return (
     <>
-      <SEOHead {...meta} />
-      <div className="space-y-20 py-12">
-        {/* Header */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-extrabold text-zinc-900 dark:text-white">
-              Parlons de vos Besoins
-            </h1>
-            <p className="mt-4 text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-              Nous prenons le temps de comprendre chaque école. 
-              Contactez-nous et recevez un devis personnalisé.
+      <SEOHead path="/contact" />
+
+      <div className="space-y-14 py-12">
+        <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">Contact commercial</p>
+            <h1 className="mt-2 text-4xl font-extrabold text-zinc-900 dark:text-white">Demande de devis et accompagnement</h1>
+            <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-300">
+              Completez le formulaire ou contactez-nous directement sur WhatsApp pour accelerer votre traitement.
             </p>
           </div>
         </section>
 
-        {/* Contact Grid */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-2">
-            {/* Contact Info */}
-            <div>
-              <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6">
-                Nos Coordonnées
-              </h2>
-              <div className="space-y-6">
-                {contactMethods.map((method, i) => method.link ? (
-                  <a key={i} href={method.link} target={method.link.startsWith('http') ? '_blank' : undefined} rel={method.link.startsWith('http') ? 'noopener noreferrer' : undefined} className="card flex items-center gap-4 p-4 hover:border-guinea-red transition-colors">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-guinea-red/10 text-2xl">{method.icon}</div>
-                    <div>
-                      <p className="font-semibold text-zinc-900 dark:text-white">{method.title}</p>
-                      <p className="text-zinc-600 dark:text-zinc-400">{method.value}</p>
-                    </div>
-                  </a>
-                ) : (
-                  <div key={i} className="card flex items-center gap-4 p-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-guinea-yellow/10 text-2xl">{method.icon}</div>
-                    <div>
-                      <p className="font-semibold text-zinc-900 dark:text-white">{method.title}</p>
-                      <p className="text-zinc-600 dark:text-zinc-400">{method.value}</p>
-                    </div>
-                  </div>
+        <section className="mx-auto grid w-full max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
+          <aside className="space-y-5">
+            <article className="card p-5">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">WhatsApp</p>
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-block text-lg font-bold text-guinea-green"
+              >
+                {SITE_CONTENT.contacts.whatsappDisplay}
+              </a>
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">Canal recommande pour les demandes urgentes.</p>
+            </article>
+
+            <article className="card p-5">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">Telephone</p>
+              <a href={`tel:+${SITE_CONTENT.contacts.phoneRaw}`} className="mt-2 inline-block text-lg font-bold text-zinc-900 dark:text-white">
+                {SITE_CONTENT.contacts.phoneDisplay}
+              </a>
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">Disponibilite: {SITE_CONTENT.contacts.responseTime}</p>
+            </article>
+
+            <article className="card p-5">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">Email</p>
+              <a href={`mailto:${SITE_CONTENT.contacts.email}`} className="mt-2 inline-block text-base font-semibold text-zinc-900 dark:text-white">
+                {SITE_CONTENT.contacts.email}
+              </a>
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">Adresse: {SITE_CONTENT.company.address}</p>
+            </article>
+
+            <article className="card p-5">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">Horaires</p>
+              <ul className="mt-2 space-y-1 text-sm text-zinc-600 dark:text-zinc-300">
+                {SITE_CONTENT.contacts.openingHours.map((slot) => (
+                  <li key={slot}>{slot}</li>
                 ))}
-              </div>
+              </ul>
+            </article>
+          </aside>
 
-              <div className="mt-8">
-                <h3 className="font-semibold text-zinc-900 dark:text-white mb-4">Horaires d'ouverture</h3>
-                <div className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
-                  <p>Lundi — Vendredi : 8h00 — 18h00</p>
-                  <p>Samedi : 9h00 — 14h00</p>
-                  <p>Dimanche : Fermé</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Form */}
-            <div>
-              <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6">
-                Envoyez-nous un Message
-              </h2>
-              
-              <div className="card p-6">
-                <ContactForm />
-              </div>
+          <div className="card p-6">
+            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Formulaire de demande</h2>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+              Les champs marques d un asterisque sont obligatoires.
+            </p>
+            <div className="mt-6">
+              <ContactForm />
             </div>
           </div>
         </section>
       </div>
     </>
-  )
+  );
 }

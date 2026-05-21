@@ -1,65 +1,96 @@
-import { useState, useEffect } from 'react'
-import { useOutletContext } from 'react-router-dom'
+﻿import { useEffect } from 'react';
+import { SITE_CONTENT } from '../../content/siteContent';
 
-const pageMeta = {
+const siteUrl = SITE_CONTENT.company.siteUrl.replace(/\/$/, '');
+
+export const ROUTE_META = {
   '/': {
-    title: 'Craigui | Craies Scolaires de Qualité en Guinée',
-    description: 'Fabrication et vente de craies scolaires de qualité au meilleur prix en Guinée. Livraison dans toute la Guinée. Made in Guinea.',
-    keywords: 'craies scolaires, guinée, conakry, craies qualité, fournitures scolaires, fabrication locale'
+    title: `${SITE_CONTENT.company.name} | Craies scolaires pour etablissements`,
+    description:
+      'Site vitrine de vente de craie: offres scolaires, prix de depart, devis rapide et contact WhatsApp.',
+    keywords:
+      'craie scolaire, craie guinee, fournisseur craie, devis craie, livraison craie, conakry',
   },
-  '/services': {
-    title: 'Nos Craies | Craigui - Craies Scolaires de Qualité',
-    description: 'Découvrez notre gamme complète de craies scolaires : blanches, colorées, effaçables et kits école. Prix gros et détail. Livraison en Guinée.',
-    keywords: 'craies blanches, craies colorées, craies effaçables, kit école, fournitures scolaires guinée'
+  '/produits': {
+    title: `Produits | ${SITE_CONTENT.company.name}`,
+    description:
+      'Decouvrez nos gammes de craies, conditionnements et prix de depart pour ecoles, centres et grossistes.',
+    keywords: 'produits craie, craies blanches, craies colorees, prix craie, commande volume',
   },
-  '/about': {
-    title: 'À Propos | Craigui - Notre Histoire',
-    description: 'Découvrez l\'histoire de Craigui : fabrication locale de craies scolaires de qualité en Guinée. Notre mission, nos valeurs et notre engagement.',
-    keywords: 'à propos craigui, fabrication craies guinée, notre histoire, mission craies scolaires'
-  },
-  '/blog': {
-    title: 'Blog | Craigui - Conseils et Actualités',
-    description: 'Conseils pour choisir vos fournitures scolaires, économies pour écoles, guide complet craies. Actualités Craigui.',
-    keywords: 'blog craies scolaires, conseils écoles, économies fournitures, guide craies guinée'
+  '/a-propos': {
+    title: `A propos | ${SITE_CONTENT.company.name}`,
+    description:
+      'Notre mission, notre approche qualite et notre engagement pour une distribution locale de craies fiables.',
+    keywords: 'a propos craigui, mission craie, fournisseur local guinee',
   },
   '/contact': {
-    title: 'Contact | Craigui - Commander vos Craies',
-    description: 'Contactez Craigui pour commander vos craies scolaires. Devis gratuit, livraison rapide en Guinée. WhatsApp, email, téléphone.',
-    keywords: 'contact craigui, commander craies, devis gratuit craies, livraison craies guinée'
+    title: `Contact et devis | ${SITE_CONTENT.company.name}`,
+    description:
+      'Demandez un devis via formulaire ou WhatsApp. Reponse rapide pour vos besoins en craies scolaires.',
+    keywords: 'contact craie, devis craie, whatsapp craie, commande craie guinee',
   },
-  '/legal/mentions': {
-    title: 'Mentions Légales | Craigui',
-    description: 'Mentions légales du site Craigui - Fabricant de craies scolaires en République de Guinée.',
-    keywords: 'mentions légales craigui'
+  '/mentions-legales': {
+    title: `Mentions legales | ${SITE_CONTENT.company.name}`,
+    description: 'Informations legales, responsabilite et politique de traitement des demandes clients.',
+    keywords: 'mentions legales craigui, politique contact',
   },
-  '/legal/cgv': {
-    title: 'Conditions Générales de Vente | Craigui',
-    description: 'Conditions générales de vente Craigui - Craies scolaires de qualité en Guinée.',
-    keywords: 'cgv craigui, conditions vente, conditions générales'
-  },
-  '/legal/confidentialite': {
-    title: 'Politique de Confidentialité | Craigui',
-    description: 'Politique de confidentialité Craigui - Protection de vos données personnelles.',
-    keywords: 'confidentialité craigui, protection données'
+};
+
+function upsertMetaByName(name, content) {
+  let el = document.querySelector(`meta[name="${name}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute('name', name);
+    document.head.appendChild(el);
   }
+  el.setAttribute('content', content);
 }
 
-function usePageMeta() {
-  const context = useOutletContext()
-  const path = context?.currentPath || window.location.pathname
-  return pageMeta[path] || pageMeta['/']
+function upsertMetaByProperty(property, content) {
+  let el = document.querySelector(`meta[property="${property}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute('property', property);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
 }
 
-function SEOHead({ title, description, keywords }) {
+function upsertCanonical(href) {
+  let el = document.querySelector('link[rel="canonical"]');
+  if (!el) {
+    el = document.createElement('link');
+    el.setAttribute('rel', 'canonical');
+    document.head.appendChild(el);
+  }
+  el.setAttribute('href', href);
+}
+
+export function SEOHead({ path = '/' }) {
   useEffect(() => {
-    document.title = title
-    const metaDesc = document.querySelector('meta[name="description"]')
-    if (metaDesc) metaDesc.content = description
-    const metaKeywords = document.querySelector('meta[name="keywords"]')
-    if (metaKeywords) metaKeywords.content = keywords
-  }, [title, description, keywords])
-  
-  return null
-}
+    const meta = ROUTE_META[path] || ROUTE_META['/'];
+    const canonicalPath = path === '/' ? '' : path;
+    const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-export { SEOHead, usePageMeta, pageMeta }
+    document.title = meta.title;
+    upsertMetaByName('description', meta.description);
+    upsertMetaByName('keywords', meta.keywords);
+    upsertMetaByName('robots', 'index,follow');
+    upsertMetaByName('author', SITE_CONTENT.company.name);
+
+    upsertMetaByProperty('og:type', 'website');
+    upsertMetaByProperty('og:locale', 'fr_GN');
+    upsertMetaByProperty('og:site_name', SITE_CONTENT.company.name);
+    upsertMetaByProperty('og:title', meta.title);
+    upsertMetaByProperty('og:description', meta.description);
+    upsertMetaByProperty('og:url', canonicalUrl);
+
+    upsertMetaByName('twitter:card', 'summary_large_image');
+    upsertMetaByName('twitter:title', meta.title);
+    upsertMetaByName('twitter:description', meta.description);
+
+    upsertCanonical(canonicalUrl);
+  }, [path]);
+
+  return null;
+}

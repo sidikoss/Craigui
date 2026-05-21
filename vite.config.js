@@ -1,37 +1,37 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa'
-import sitemap from 'vite-plugin-sitemap'
+﻿import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
+import sitemap from 'vite-plugin-sitemap';
 
 export default defineConfig({
   plugins: [
     react(),
     sitemap({
-      hostname: 'https://craigui.vercel.app',
-      dynamicRoutes: ['/services', '/about', '/blog', '/contact']
+      hostname: 'https://vitrine-craie.vercel.app',
+      dynamicRoutes: ['/produits', '/a-propos', '/contact', '/mentions-legales'],
     }),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.svg', 'robots.txt'],
       manifest: {
-        name: 'Craigui | Craies de Qualité en Guinée',
+        name: 'Craigui - Vitrine Craie',
         short_name: 'Craigui',
-        description: 'Fabrication et distribution de craies scolaires de qualité en République de Guinée',
+        description: 'Vitrine de vente de craies scolaires en Guinee',
         theme_color: '#CE1126',
         icons: [
           {
             src: 'favicon.svg',
             sizes: '192x192',
-            type: 'image/svg+xml'
+            type: 'image/svg+xml',
           },
           {
             src: 'favicon.svg',
             sizes: '512x512',
-            type: 'image/svg+xml'
-          }
-        ]
-      }
-    })
+            type: 'image/svg+xml',
+          },
+        ],
+      },
+    }),
   ],
   build: {
     sourcemap: true,
@@ -47,5 +47,5 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.js',
-  }
-})
+  },
+});
